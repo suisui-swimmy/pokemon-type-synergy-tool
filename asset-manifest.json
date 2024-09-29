@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/pokemon-type-synergy-tool/static/css/main.5185b943.css",
-    "main.js": "/pokemon-type-synergy-tool/static/js/main.b4a6cd05.js",
+    "main.js": "/pokemon-type-synergy-tool/static/js/main.e322279d.js",
     "index.html": "/pokemon-type-synergy-tool/index.html",
     "main.5185b943.css.map": "/pokemon-type-synergy-tool/static/css/main.5185b943.css.map",
-    "main.b4a6cd05.js.map": "/pokemon-type-synergy-tool/static/js/main.b4a6cd05.js.map"
+    "main.e322279d.js.map": "/pokemon-type-synergy-tool/static/js/main.e322279d.js.map"
   },
   "entrypoints": [
     "static/css/main.5185b943.css",
-    "static/js/main.b4a6cd05.js"
+    "static/js/main.e322279d.js"
   ]
 }
