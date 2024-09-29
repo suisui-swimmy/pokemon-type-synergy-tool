@@ -2,6 +2,16 @@ import React, { useState } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Box, Button } from '@mui/material';
 import { typeData } from '../data/typeData';
 
+// タイプの順序を定義
+const typeOrder = ['無', '炎', '水', '電', '草', '氷', '闘', '毒', '地', '飛', '超', '虫', '岩', '霊', '竜', '悪', '鋼', '妖'];
+
+// タイプをソートする関数
+const sortTypes = (type1, type2) => {
+  const index1 = typeOrder.indexOf(type1);
+  const index2 = typeOrder.indexOf(type2);
+  return index1 - index2;
+};
+
 const TableB = ({ resistantType, ability, effectiveness, matchCount, resistantToWeakTypes, customResistance, originalEffectiveness, onTypeClick }) => {
   const [sortOrder, setSortOrder] = useState('asc');
 
@@ -21,13 +31,13 @@ const TableB = ({ resistantType, ability, effectiveness, matchCount, resistantTo
     return value.toFixed(2).replace(/\.?0+$/, '');
   };
 
-  const TypeDisplay = ({ type }) => (
+  const TypeDisplay = ({ type, isLast }) => (
     <Typography variant="h6" component="span" style={{ 
       backgroundColor: typeData[type].color, 
       color: typeData[type].textColor,
       padding: '5px',
       display: 'inline-block',
-      marginRight: '10px'
+      marginRight: isLast ? '0' : '10px'
     }}>
       {type}
     </Typography>
@@ -77,11 +87,14 @@ const TableB = ({ resistantType, ability, effectiveness, matchCount, resistantTo
 
   const customResistanceDisplay = Object.entries(customResistance).map(([type, value], index, array) => (
     <React.Fragment key={type}>
-      <TypeDisplay type={type} />
+      <TypeDisplay type={type} isLast={index === array.length - 1} />
       <span style={{ margin: 0 }}>×{value}</span>
       {index < array.length - 1 && <span style={{ marginRight: '10px' }}></span>}
     </React.Fragment>
   ));
+
+  // タイプの表示順を変更する
+  const sortedResistantTypes = resistantType.split('/').sort(sortTypes);
 
   return (
     <div style={{ marginBottom: '20px' }}>
@@ -96,8 +109,9 @@ const TableB = ({ resistantType, ability, effectiveness, matchCount, resistantTo
         }}
       >
         <Typography variant="h6" component="span">
-          <TypeDisplay type={resistantType.split('/')[0]} />
-          {resistantType.split('/')[1] && <TypeDisplay type={resistantType.split('/')[1]} />}
+          {sortedResistantTypes.map((type, index) => (
+            <TypeDisplay key={type} type={type} isLast={index === sortedResistantTypes.length - 1} />
+          ))}
           {ability && <span style={{ marginLeft: '10px' }}>({ability})</span>}
           {customResistanceDisplay.length > 0 && (
             <span style={{ marginLeft: '10px' }}>

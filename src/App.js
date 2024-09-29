@@ -45,6 +45,16 @@ const TypeDisplay = React.memo(({ type }) => (
   </Typography>
 ));
 
+// タイプの順序を定義
+const typeOrder = ['無', '炎', '水', '電', '草', '氷', '闘', '毒', '地', '飛', '超', '虫', '岩', '霊', '竜', '悪', '鋼', '妖'];
+
+// タイプをソートする関数
+const sortTypes = (type1, type2) => {
+  const index1 = typeOrder.indexOf(type1);
+  const index2 = typeOrder.indexOf(type2);
+  return index1 - index2;
+};
+
 function App() {
   const [selectedTypes, setSelectedTypes] = useState([]);
   const [selectedAbility, setSelectedAbility] = useState(null);
@@ -130,15 +140,16 @@ function App() {
         return Object.entries(memoizedResistantTypesData)
           .map(([typeAbility, data]) => {
             const [types, ability] = typeAbility.split(' (');
+            const sortedTypes = types.split('/').sort(sortTypes).join('/');
             const superEffectiveTypesB = Object.keys(data.effectiveness).filter(type => data.effectiveness[type] >= 2);
             const matchCount = resistanceTypesA.filter(type => superEffectiveTypesB.includes(type)).length;
 
             return {
-              typeAbility,
+              typeAbility: `${sortedTypes}${ability ? ` (${ability}` : ''}`,
               data: {
                 ...data,
                 matchCount,
-                types,
+                types: sortedTypes,
                 ability: ability ? ability.slice(0, -1) : null
               }
             };
