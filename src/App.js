@@ -190,15 +190,44 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Container className="App">
-        <Box sx={{ textAlign: 'center', my: 3, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Typography variant="h4" component="h1">
+        <Box sx={{ 
+          textAlign: 'center', 
+          my: { xs: 2, sm: 2.5, md: 3 },
+          display: 'flex', 
+          justifyContent: 'space-between', 
+          alignItems: 'center',
+          flexWrap: 'nowrap',
+          width: '100%',
+          maxWidth: '1200px',
+          margin: '0 auto'
+        }}>
+          <Typography 
+            variant="h4" 
+            component="h1" 
+            sx={{ 
+              textAlign: 'left', 
+              width: '70%', 
+              fontSize: { xs: '1.25rem', sm: '1.5rem', md: '2rem' },
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis'
+            }}
+          >
             ポケモン相性補完考察ツール
           </Typography>
+          <Box sx={{ width: '20%' }} /> {/* スペーサー */}
           <Link 
             href="https://github.com/suisui-swimmy/pokemon-type-synergy-tool/blob/main/README.md" 
             target="_blank" 
             rel="noopener noreferrer"
-            sx={{ color: 'primary.main', textDecoration: 'none' }}
+            sx={{ 
+              color: 'primary.main', 
+              textDecoration: 'none',
+              width: '10%',
+              textAlign: 'right',
+              whiteSpace: 'nowrap',
+              fontSize: { xs: '0.875rem', sm: '1rem', md: '1.125rem' }
+            }}
           >
             使い方
           </Link>
