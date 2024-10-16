@@ -1,4 +1,6 @@
 # ポケモン相性補完考察ツール
+[https://suisui-swimmy.github.io/pokemon-type-synergy-tool/](https://suisui-swimmy.github.io/pokemon-type-synergy-tool/)
+
 ## 機能
 「選択されたポケモンのタイプ」に対し、「弱点タイプ(倍率が2、4)であるタイプすべてに耐性を持つタイプ(倍率が0、0.25、0.5)」を表示します。
 ## 表示の詳細
