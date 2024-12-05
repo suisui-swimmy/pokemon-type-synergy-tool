@@ -1,3 +1,7 @@
+### 更新予定(メモ)
+- 「一致数」の表示を「一致率」に変更し、「一致率」の値に基づいた結果表示に変更
+- (結果表示から、ポケ徹のタイプ詳細検索結果ページへのリンク生成)
+
 # ポケモン相性補完考察ツール
 [https://suisui-swimmy.github.io/pokemon-type-synergy-tool/](https://suisui-swimmy.github.io/pokemon-type-synergy-tool/)
 
