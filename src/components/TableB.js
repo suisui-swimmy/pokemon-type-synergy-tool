@@ -2,10 +2,8 @@ import React, { useState } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Box, Button } from '@mui/material';
 import { typeData } from '../data/typeData';
 
-// タイプの順序を定義
 const typeOrder = ['無', '炎', '水', '電', '草', '氷', '闘', '毒', '地', '飛', '超', '虫', '岩', '霊', '竜', '悪', '鋼', '妖'];
 
-// タイプをソートする関数
 const sortTypes = (type1, type2) => {
   const index1 = typeOrder.indexOf(type1);
   const index2 = typeOrder.indexOf(type2);
@@ -42,6 +40,18 @@ const TableB = ({ resistantType, ability, effectiveness, matchCount, resistantTo
       {type}
     </Typography>
   );
+
+  // 一致率の計算
+  const calculateMatchRate = () => {
+    const superEffectiveTypesB = Object.keys(effectiveness).filter(type => effectiveness[type] >= 2);
+    const resistanceTypesA = Object.keys(originalEffectiveness).filter(type => originalEffectiveness[type] <= 0.5);
+    const matchingTypes = superEffectiveTypesB.filter(type => resistanceTypesA.includes(type));
+    
+    if (superEffectiveTypesB.length === 0) return 0;
+    return (matchingTypes.length / superEffectiveTypesB.length * 100).toFixed(1);
+  };
+
+  const matchRate = calculateMatchRate();
 
   const shouldHighlightRed = (type) => {
     const isWeakTypeInTableA = originalEffectiveness && originalEffectiveness[type] >= 2;
@@ -93,7 +103,6 @@ const TableB = ({ resistantType, ability, effectiveness, matchCount, resistantTo
     </React.Fragment>
   ));
 
-  // タイプの表示順を変更する
   const sortedResistantTypes = resistantType.split('/').sort(sortTypes);
 
   return (
@@ -119,7 +128,7 @@ const TableB = ({ resistantType, ability, effectiveness, matchCount, resistantTo
             </span>
           )}
           <span style={{ marginLeft: '10px', fontSize: '1.25rem' }}>
-            (一致数: {matchCount})
+            (一致率: {matchRate}%)
           </span>
         </Typography>
       </Box>

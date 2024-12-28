@@ -45,10 +45,8 @@ const TypeDisplay = React.memo(({ type }) => (
   </Typography>
 ));
 
-// タイプの順序を定義
 const typeOrder = ['無', '炎', '水', '電', '草', '氷', '闘', '毒', '地', '飛', '超', '虫', '岩', '霊', '竜', '悪', '鋼', '妖'];
 
-// タイプをソートする関数
 const sortTypes = (type1, type2) => {
   const index1 = typeOrder.indexOf(type1);
   const index2 = typeOrder.indexOf(type2);
@@ -143,25 +141,30 @@ function App() {
             const sortedTypes = types.split('/').sort(sortTypes).join('/');
             const superEffectiveTypesB = Object.keys(data.effectiveness).filter(type => data.effectiveness[type] >= 2);
             const matchCount = resistanceTypesA.filter(type => superEffectiveTypesB.includes(type)).length;
+            const matchRate = superEffectiveTypesB.length > 0 
+              ? (matchCount / superEffectiveTypesB.length * 100)
+              : 0;
 
             return {
               typeAbility: `${sortedTypes}${ability ? ` (${ability}` : ''}`,
               data: {
                 ...data,
                 matchCount,
+                matchRate,
                 types: sortedTypes,
                 ability: ability ? ability.slice(0, -1) : null
               }
             };
           })
           .sort((a, b) => {
-            if (b.data.matchCount !== a.data.matchCount) {
-              return b.data.matchCount - a.data.matchCount;
-            } else {
-              const sumA = a.data.resistantToWeakTypes.reduce((sum, type) => sum + a.data.effectiveness[type], 0);
-              const sumB = b.data.resistantToWeakTypes.reduce((sum, type) => sum + b.data.effectiveness[type], 0);
-              return sumA - sumB;
-            }
+            // 一致率による降順ソート
+            const rateComparison = b.data.matchRate - a.data.matchRate;
+            if (rateComparison !== 0) return rateComparison;
+            
+            // 一致率が同じ場合は弱点タイプへの耐性値の合計で比較
+            const sumA = a.data.resistantToWeakTypes.reduce((sum, type) => sum + a.data.effectiveness[type], 0);
+            const sumB = b.data.resistantToWeakTypes.reduce((sum, type) => sum + b.data.effectiveness[type], 0);
+            return sumA - sumB;
           })
           .map(({ typeAbility, data }) => (
             <TableB 
@@ -215,7 +218,7 @@ function App() {
           >
             ポケモン相性補完考察ツール
           </Typography>
-          <Box sx={{ width: '20%' }} /> {/* スペーサー */}
+          <Box sx={{ width: '20%' }} />
           <Link 
             href="https://github.com/suisui-swimmy/pokemon-type-synergy-tool/blob/main/README.md" 
             target="_blank" 
