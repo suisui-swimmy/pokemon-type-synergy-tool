@@ -10,6 +10,12 @@ const sortTypes = (type1, type2) => {
   return index1 - index2;
 };
 
+const formatEffectivenessValue = (value) => {
+  if (value === undefined) return '-';
+  if (Number.isInteger(value)) return value.toString();
+  return value.toFixed(2).replace(/\.?0+$/, '');
+};
+
 const TableB = ({ resistantType, ability, effectiveness, matchCount, resistantToWeakTypes, customResistance, originalEffectiveness, onTypeClick }) => {
   const [sortOrder, setSortOrder] = useState('asc');
 
@@ -95,14 +101,29 @@ const TableB = ({ resistantType, ability, effectiveness, matchCount, resistantTo
     }
   });
 
-  const customResistanceDisplay = Object.entries(customResistance).map(([type, value], index, array) => (
-    <React.Fragment key={type}>
-      <TypeDisplay type={type} isLast={index === array.length - 1} />
-      <span style={{ margin: 0 }}>×{value}</span>
-      {index < array.length - 1 && <span style={{ marginRight: '10px' }}></span>}
-    </React.Fragment>
-  ));
+  // カスタム耐性条件の表示を生成
+  const getCustomResistanceDisplay = () => {
+    return Object.entries(customResistance).map(([type, maxValue]) => {
+      const actualValue = effectiveness[type];
+      return {
+        type,
+        displayValue: formatEffectivenessValue(actualValue)
+      };
+    });
+  };
 
+  const CustomResistanceDisplay = ({ customResistanceInfo }) => (
+    <span style={{ display: 'inline-flex', alignItems: 'center', gap: '10px' }}>
+      {customResistanceInfo.map(({ type, displayValue }, index) => (
+        <span key={type} style={{ display: 'inline-flex', alignItems: 'center' }}>
+          <TypeDisplay type={type} isLast={true} />
+          <span>×{displayValue}</span>
+        </span>
+      ))}
+    </span>
+  );
+
+  const customResistanceDisplay = getCustomResistanceDisplay();
   const sortedResistantTypes = resistantType.split('/').sort(sortTypes);
 
   return (
@@ -124,7 +145,7 @@ const TableB = ({ resistantType, ability, effectiveness, matchCount, resistantTo
           {ability && <span style={{ marginLeft: '10px' }}>({ability})</span>}
           {customResistanceDisplay.length > 0 && (
             <span style={{ marginLeft: '10px' }}>
-              ({customResistanceDisplay})
+              (<CustomResistanceDisplay customResistanceInfo={customResistanceDisplay} />)
             </span>
           )}
           <span style={{ marginLeft: '10px', fontSize: '1.25rem' }}>

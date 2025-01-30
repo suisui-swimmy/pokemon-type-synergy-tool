@@ -82,8 +82,10 @@ export const findResistantTypes = (effectiveness, customResistance, typeAbilityC
     
     const resistantToWeakTypes = weakTypes.filter(type => {
       if (type in customResistance) {
-        return Math.abs(combinedEffectiveness[type] - customResistance[type]) < 0.001;
+        // カスタム耐性が設定されている場合、設定された倍率以下であることを確認
+        return combinedEffectiveness[type] <= customResistance[type];
       }
+      // カスタム耐性が設定されていない場合は従来通り0.5倍以下
       return combinedEffectiveness[type] <= 0.5;
     });
     
@@ -110,8 +112,10 @@ export const findResistantTypes = (effectiveness, customResistance, typeAbilityC
       
       const resistantToWeakTypes = weakTypes.filter(type => {
         if (type in customResistance) {
-          return Math.abs(combinedEffectiveness[type] - customResistance[type]) < 0.001;
+          // カスタム耐性が設定されている場合、設定された倍率以下であることを確認
+          return combinedEffectiveness[type] <= customResistance[type];
         }
+        // カスタム耐性が設定されていない場合は従来通り0.5倍以下
         return combinedEffectiveness[type] <= 0.5;
       });
       
