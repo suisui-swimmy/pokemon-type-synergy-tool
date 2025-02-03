@@ -1,3 +1,6 @@
+### 更新予定(メモ)
+- 「<耐性タイプの条件を変更する>」の検索条件を双方の一致率に変更する。
+
 # ポケモン相性補完考察ツール
 [https://suisui-swimmy.github.io/pokemon-type-synergy-tool/](https://suisui-swimmy.github.io/pokemon-type-synergy-tool/)
 
