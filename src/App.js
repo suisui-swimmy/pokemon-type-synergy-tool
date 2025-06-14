@@ -192,7 +192,7 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Container className="App">
+      <Container className="App" maxWidth={false} disableGutters sx={{ maxWidth: "1200px", margin: "0 auto" }}>
         <Box sx={{ 
           textAlign: 'center', 
           my: { xs: 2, sm: 2.5, md: 3 },
